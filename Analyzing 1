@@ -1,0 +1,35 @@
+# House Price 1일차 
+## Comprehensive data exploration with Python 공부
+
+링크 : https://www.kaggle.com/pmarcelino/comprehensive-data-exploration-with-python
+
+### 논리 이해하기
+1. 문제 이해
+2. 독립변수 이해하기
+3. 독립변수 - 종속변수의 관계 이해하기
+4. 데이터 정리하기
+5. 가설 검증하기
+
+### 코드의 흐름
+#### 불러오기
+import pandas as pd
+
+import matplotlib.pyplot as plt
+
+import seaborn as sns #통계적 데이터 비쥬얼라이제이션 : https://seaborn.pydata.org/
+
+import numpy as np
+
+from scipy.stats import norm
+
+from sklearn.preprocessing import StandardScaler
+
+from scipy import stats
+
+import warnings
+
+warnings.filterwarnings('ignore')
+
+%matplotlib inline
+
+### 지식 보충
