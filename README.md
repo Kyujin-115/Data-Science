@@ -7,21 +7,48 @@
 ### 논리 이해하기
 1. 문제 이해 : 최종적인 집 값 예측하기
 
-2. 전처리 : 독립변수 
+2. 전처리
 
-(1) 
+(1) 분석하기
 
 Variable (변수)
 
-Type : numerical, categorial 
+Data Type : numerical, categorial 
 
 Segment : building (OverallQual), space(TotalBsmtSF), location(Neighborhood)
 
 Expectation : 'SalePrice' 확률 (High, Medium, Low)
 
-Conclusion : 
-3. 독립변수 - 종속변수의 관계 이해하기
+(2) 독립변수 뽑아내기
+
+3가지 질문 (집을 살 때 생각하는 변수, 그 변수의 중요성, 중복되는지)을 통해 선정
+
+OverallQual(Building), YearBuilt(Building), TotalBsmtSF(Space), GrLivArea(Space).
+
+*Location변수를 고르지 않은 이유 : 카테고리형 데이터이기 때문
+
+3. 종속변수(Sale Price) 분석하기
+
+(1) 평균과 떨어져 있음
+
+(2) 특징적인 편포도를 가짐
+
+(3) 편포도 : 1.88 / 첨도 : 6.53
+
+(4) 독립변수와의 관계 
+
+모두 상관관계 높음
+
+Numerical : GrLivArea < TotalBsmtSF
+
+Categorial : OverallQual > YearBuilt
+
+(5) 다른 변수들간의 상관관계 
+
+
+
 4. 데이터 정리하기
+
 5. 가설 검증하기
 
 ### 코드의 흐름
@@ -61,6 +88,65 @@ warnings.filterwarnings('ignore')
 #notebook을 실행한 브라우저에서 바로 그림을 볼 수 있게 해주는 것 : https://korbillgates.tistory.com/85
 
 %matplotlib inline
+
+#### Sale Price 분석하기
+
+df_train['SalePrice'].describe()
+
+sns.distplot(df_train['SalePrice']);
+
+print("Skewness : %f" %df_train['SalePrice'].skew())
+
+print("Kurtosis : %f" %df_train['SalePrice'].kurt())
+
+#### GrLivArea와 SalePrice 분석하기
+
+var = 'GrLivArea'
+
+data = pd.concat([df_train['SalePrice'],df_train[var]],axis=1)
+
+data.plot.scatter(x=var,y='SalePrice',ylim=(0,800000))
+
+#### TotalBsmtSF 도 SalePrice 와 함께 분석하기
+
+var = 'TotalBsmtSF'
+
+data = pd.concat([df_train['SalePrice'],df_train[var]],axis=1)
+
+data.plot.scatter(x=var,y='SalePrice',ylim=(0,800000))
+
+#### OverallQual 과 SalePrice 분석하기
+
+var = 'OverallQual'
+
+data = pd.concat([df_train['SalePrice'],df_train[var]],axis = 1)
+
+f, ax = plt.subplots(figsize = (8,6))
+
+fig = sns.boxplot(x=var,y="SalePrice",data=data)
+
+fig.axis(ymin=0,ymax=800000)
+
+#### YearBuilt 와 SalePrice 분석하기
+
+var = 'YearBuilt'
+
+data = pd.concat([df_train['SalePrice'], df_train[var]], axis=1)
+
+f, ax = plt.subplots(figsize=(16, 8))
+
+fig = sns.boxplot(x=var, y="SalePrice", data=data)
+
+fig.axis(ymin=0, ymax=800000);
+
+plt.xticks(rotation=90);
+
+#### 변수 간의 상관관계 분석하기
+
+혹시 다른 변수가 있나 보려는 의도!!
+
+
+
 
 ### 지식 보충
 
